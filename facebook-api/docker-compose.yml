@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  database:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: facebook-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'facebook'
+    ports:
+      - '3306:3306'
