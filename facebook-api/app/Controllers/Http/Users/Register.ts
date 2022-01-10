@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { StoreValidator } from 'App/Validators/User/Register'
+import { StoreValidator, UpdateValidator } from 'App/Validators/User/Register'
 import { User, UserKey } from 'App/Models'
 import faker from 'faker'
 import Mail from '@ioc:Adonis/Addons/Mail'
@@ -32,5 +32,20 @@ export default class UserRegisterController {
     return user
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ response, request }: HttpContextContract) {
+    const { key, name, password } = await request.validate(UpdateValidator)
+
+    const userKey = await UserKey.findByOrFail('key', key)
+
+    const user = await userKey.related('user').query().firstOrFail()
+
+    const username = name.split(' ')[0].toLowerCase() + user.id
+
+    user.merge({ name, username, password })
+    await user.save()
+
+    await userKey.delete()
+
+    return response.ok({ message: 'User has been created' })
+  }
 }
