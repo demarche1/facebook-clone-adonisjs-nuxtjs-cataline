@@ -29,9 +29,9 @@ export default class ForgotPasswordsController {
   public async show({ params }: HttpContextContract) {
     const userKey = await UserKey.findByOrFail('key', params.key)
 
-    const user = await userKey.related('user').query().firstOrFail()
+    await userKey.load('user')
 
-    return user
+    return userKey.user
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -39,11 +39,13 @@ export default class ForgotPasswordsController {
 
     const userKey = await UserKey.findByOrFail('key', key)
 
-    const user = await userKey.related('user').query().firstOrFail()
+    await userKey.load('user')
 
-    user.password = password
+    userKey.user.password = password
 
-    await user.save()
+    await userKey.user.save()
+
+    await userKey.delete()
 
     response.ok({ message: 'Password was updated!' })
   }

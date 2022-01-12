@@ -28,7 +28,7 @@ export default class UserRegisterController {
         message.to(user.email)
         message.from('contato@facebook.com')
         message.subject('Confirmação de email')
-        message.textView('emails/register', { link })
+        message.htmlView('emails/verify-email', { link })
       })
     })
   }
@@ -36,9 +36,9 @@ export default class UserRegisterController {
   public async show({ params }: HttpContextContract) {
     const userKey = await UserKey.findByOrFail('key', params.key)
 
-    const user = await userKey.related('user').query().firstOrFail()
+    await userKey.load('user')
 
-    return user
+    return userKey.user
   }
 
   public async update({ response, request }: HttpContextContract) {
@@ -46,12 +46,13 @@ export default class UserRegisterController {
 
     const userKey = await UserKey.findByOrFail('key', key)
 
-    const user = await userKey.related('user').query().firstOrFail()
+    await userKey.load('user')
 
-    const username = name.split(' ')[0].toLowerCase() + user.id
+    const username = name.split(' ')[0].toLowerCase() + userKey.user.id
 
-    user.merge({ name, username, password })
-    await user.save()
+    userKey.user.merge({ name, username, password })
+
+    await userKey.user.save()
 
     await userKey.delete()
 
