@@ -13,3 +13,4 @@ Route.put('/users/profile', 'Users/UpdateProfiles.update').middleware('auth')
 Route.delete('/users/profile', 'Users/UpdateProfiles.destroy').middleware('auth')
 
 Route.put('/users/avatar', 'Users/FilesController.update').middleware('auth')
+Route.delete('/users/avatar', 'Users/FilesController.destroy').middleware('auth')
