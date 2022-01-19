@@ -11,3 +11,5 @@ Route.put('/users/forgot-password', 'Users/ForgotPasswords.update')
 Route.get('/users/profile', 'Users/UpdateProfiles.show').middleware('auth')
 Route.put('/users/profile', 'Users/UpdateProfiles.update').middleware('auth')
 Route.delete('/users/profile', 'Users/UpdateProfiles.destroy').middleware('auth')
+
+Route.put('/users/avatar', 'Users/FilesController.update').middleware('auth')

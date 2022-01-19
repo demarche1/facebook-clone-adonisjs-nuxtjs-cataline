@@ -3,7 +3,7 @@ import { UpdateValidator } from 'App/Validators/User/UpdateProfile'
 
 export default class UpdateProfilesController {
   public async show({ auth }: HttpContextContract) {
-    const user = await auth.authenticate()
+    const user = auth.user!
 
     return user
   }
@@ -11,7 +11,7 @@ export default class UpdateProfilesController {
   public async update({ request, response, auth }: HttpContextContract) {
     const data = await request.validate(UpdateValidator)
 
-    const user = await auth.authenticate()
+    const user = auth.user!
 
     user.merge(data)
     await user.save()
