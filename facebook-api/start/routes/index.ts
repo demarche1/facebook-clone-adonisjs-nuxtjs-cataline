@@ -2,6 +2,7 @@ import Route from '@ioc:Adonis/Core/Route'
 import './auth'
 import './users'
 import './upload'
+import './search'
 
 Route.get('/', async () => {
   return { hello: 'world' }

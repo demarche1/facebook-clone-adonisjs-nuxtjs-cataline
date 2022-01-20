@@ -5,6 +5,8 @@ export default class UpdateProfilesController {
   public async show({ auth }: HttpContextContract) {
     const user = auth.user!
 
+    await user.load('avatar')
+
     return user
   }
 
@@ -20,7 +22,7 @@ export default class UpdateProfilesController {
   }
 
   public async destroy({ response, auth }: HttpContextContract) {
-    const user = await auth.authenticate()
+    const user = auth.user!
 
     await user.delete()
 
