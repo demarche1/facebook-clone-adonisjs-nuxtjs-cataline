@@ -9,8 +9,7 @@ import {
   hasOne,
   HasOne
 } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey, File } from 'App/Models'
-
+import { UserKey, File, Post } from 'App/Models'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -51,4 +50,7 @@ export default class User extends BaseModel {
     onQuery: (query) => query.where('file_category', 'avatar')
   })
   public avatar: HasOne<typeof File>
+
+  @hasMany(() => Post)
+  public posts: HasMany<typeof Post>
 }

@@ -3,6 +3,7 @@ import './auth'
 import './users'
 import './upload'
 import './search'
+import './post'
 
 Route.get('/', async () => {
   return { hello: 'world' }
