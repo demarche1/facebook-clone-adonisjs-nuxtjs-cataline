@@ -11,6 +11,8 @@ export default class Main {
     const user = (await User.findBy('username', username)) || auth.user!
 
     await user.load('posts', (query) => {
+      query.preload('media')
+
       query.preload('user', (query) => {
         query.select(['id', 'name', 'username'])
         query.preload('avatar')
