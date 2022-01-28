@@ -9,7 +9,7 @@ import {
   hasOne,
   HasOne
 } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey, File, Post } from 'App/Models'
+import { UserKey, File, Post, Comment } from 'App/Models'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -53,4 +53,7 @@ export default class User extends BaseModel {
 
   @hasMany(() => Post)
   public posts: HasMany<typeof Post>
+
+  @hasMany(() => Comment)
+  public comments: HasMany<typeof Comment>
 }

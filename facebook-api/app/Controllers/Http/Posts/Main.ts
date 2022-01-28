@@ -13,9 +13,18 @@ export default class Main {
     await user.load('posts', (query) => {
       query.preload('media')
 
+      query.withCount('comments')
+
       query.preload('user', (query) => {
         query.select(['id', 'name', 'username'])
         query.preload('avatar')
+      })
+
+      query.preload('comments', (query) => {
+        query.preload('user', (query) => {
+          query.select(['id', 'name', 'username'])
+          query.preload('avatar')
+        })
       })
     })
 
