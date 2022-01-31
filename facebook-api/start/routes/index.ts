@@ -4,6 +4,8 @@ import './users'
 import './upload'
 import './search'
 import './post'
+import './comments'
+import './reactions'
 
 Route.get('/', async () => {
   return { hello: 'world' }
