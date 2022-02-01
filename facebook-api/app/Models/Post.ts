@@ -28,6 +28,29 @@ export default class Post extends BaseModel {
   @column()
   public userId: number
 
+  // Computeds
+  @computed()
+  public get commentsCount(): number {
+    return this.$extras.comments_count
+  }
+
+  @computed()
+  public get reactionsCount() {
+    return {
+      like: this.$extras.likeCount || 0,
+      love: this.$extras.loveCount || 0,
+      haha: this.$extras.hahaCount || 0,
+      sad: this.$extras.sadCount || 0,
+      angry: this.$extras.angryCount || 0
+    }
+  }
+
+  @computed()
+  public get activeReaction() {
+    return this.reactions && this.reactions.length ? this.reactions[0].type : null
+  }
+
+  // Relations
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 
@@ -39,11 +62,6 @@ export default class Post extends BaseModel {
     onQuery: (query) => query.where('file_category', 'post')
   })
   public media: HasOne<typeof File>
-
-  @computed()
-  public get commentsCount(): number {
-    return this.$extras.comments_count
-  }
 
   @hasMany(() => Reaction)
   public reactions: HasMany<typeof Reaction>
