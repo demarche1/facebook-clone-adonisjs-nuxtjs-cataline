@@ -6,6 +6,7 @@ import './search'
 import './post'
 import './comments'
 import './reactions'
+import './follows'
 
 Route.get('/', async () => {
   return { hello: 'world' }
