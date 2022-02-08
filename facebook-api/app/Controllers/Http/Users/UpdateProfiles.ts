@@ -20,12 +20,4 @@ export default class UpdateProfilesController {
 
     return response.ok({ msg: 'User was updated!' })
   }
-
-  public async destroy({ response, auth }: HttpContextContract) {
-    const user = auth.user!
-
-    await user.delete()
-
-    response.ok({ msg: 'User was deleted' })
-  }
 }

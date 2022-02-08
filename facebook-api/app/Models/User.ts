@@ -9,7 +9,8 @@ import {
   hasOne,
   HasOne,
   manyToMany,
-  ManyToMany
+  ManyToMany,
+  computed
 } from '@ioc:Adonis/Lucid/Orm'
 import { UserKey, File, Post, Comment } from 'App/Models'
 export default class User extends BaseModel {
@@ -74,4 +75,25 @@ export default class User extends BaseModel {
     pivotRelatedForeignKey: 'following_id'
   })
   public following: ManyToMany<typeof User>
+
+  // Computeds
+  @computed()
+  public get isFollowing(): boolean {
+    return this.$extras.isFollowing
+  }
+
+  @computed()
+  public get postsCount(): number {
+    return this.$extras.posts_count
+  }
+
+  @computed()
+  public get followersCount(): number {
+    return this.$extras.followers_count
+  }
+
+  @computed()
+  public get followingCount(): number {
+    return this.$extras.following_count
+  }
 }

@@ -37,11 +37,11 @@ export default class Post extends BaseModel {
   @computed()
   public get reactionsCount() {
     return {
-      like: this.$extras.likeCount || 0,
-      love: this.$extras.loveCount || 0,
-      haha: this.$extras.hahaCount || 0,
-      sad: this.$extras.sadCount || 0,
-      angry: this.$extras.angryCount || 0
+      like: this.$extras.like || 0,
+      love: this.$extras.love || 0,
+      haha: this.$extras.haha || 0,
+      sad: this.$extras.sad || 0,
+      angry: this.$extras.angry || 0
     }
   }
 

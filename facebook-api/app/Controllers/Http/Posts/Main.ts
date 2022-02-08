@@ -6,9 +6,9 @@ import fs from 'fs'
 
 export default class Main {
   public async index({ request, auth }: HttpContextContract) {
-    const { username } = request.qs() || ''
+    const { username } = request.qs()
 
-    const user = (await User.findBy('username', username)) || auth.user!
+    const user = (await User.findBy('username', username || '')) || auth.user!
 
     await user.load('posts', (query) => {
       query.preload('media')
@@ -29,27 +29,27 @@ export default class Main {
 
       query.withCount('reactions', (query) => {
         query.where('type', 'like')
-        query.as('likeCount')
+        query.as('like')
       })
 
       query.withCount('reactions', (query) => {
         query.where('type', 'love')
-        query.as('loveCount')
+        query.as('love')
       })
 
       query.withCount('reactions', (query) => {
         query.where('type', 'haha')
-        query.as('hahaCount')
+        query.as('haha')
       })
 
       query.withCount('reactions', (query) => {
         query.where('type', 'sad')
-        query.as('sadCount')
+        query.as('sad')
       })
 
       query.withCount('reactions', (query) => {
         query.where('type', 'angry')
-        query.as('angryCount')
+        query.as('angry')
       })
 
       query.preload('reactions', () => {
