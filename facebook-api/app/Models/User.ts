@@ -12,7 +12,7 @@ import {
   ManyToMany,
   computed
 } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey, File, Post, Comment } from 'App/Models'
+import { UserKey, File, Post, Comment, Conversation, Message } from 'App/Models'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -59,6 +59,12 @@ export default class User extends BaseModel {
 
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
+
+  @hasMany(() => Conversation)
+  public conversations: HasMany<typeof Conversation>
+
+  @hasMany(() => Message)
+  public messages: HasMany<typeof Message>
 
   // Seguidores
   @manyToMany(() => User, {
