@@ -18,3 +18,5 @@ Route.get('/', async () => {
 Route.get('/user-register', async ({ view }) => {
   return view.render('emails/register')
 })
+
+Route.on('/test').render('teste')
