@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, afterCreate } from '@ioc:Adonis/Lucid/Orm'
+import { Conversation, User } from 'App/Models'
+import Ws from 'App/Services/Ws'
 
 export default class Message extends BaseModel {
   @column({ isPrimary: true })
@@ -19,4 +21,18 @@ export default class Message extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Conversation)
+  public conversations: BelongsTo<typeof Conversation>
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
+
+  @afterCreate()
+  public static dispatchMessage(message: Message) {
+    Ws.io.to(`room-${message.conversationId}`).emit('newMessage', {
+      content: message.content,
+      userId: message.userId
+    })
+  }
 }

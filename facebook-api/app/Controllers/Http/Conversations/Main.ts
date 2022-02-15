@@ -3,11 +3,30 @@ import { Conversation } from 'App/Models'
 
 export default class MainsController {
   public async index({ auth }: HttpContextContract) {
-    const conversations = await Conversation.query()
-      .where({ userIdOne: auth.user!.id })
-      .orWhere({ userIdTwo: auth.user!.id })
+    const user = auth.user!
 
-    return conversations
+    const conversations = await Conversation.query()
+      .where({ userIdOne: user.id })
+      .orWhere({ userIdTwo: user.id })
+      .preload('userOne', (query) => {
+        query.whereNot('id', user.id)
+        query.preload('avatar')
+      })
+      .preload('userTwo', (query) => {
+        query.whereNot('id', user.id)
+        query.preload('avatar')
+      })
+
+    return conversations.map(conversation => {
+      const conversationInJSON = conversation.toJSON()
+
+      conversationInJSON.user = conversation.userOne || conversation.userTwo
+
+      delete conversationInJSON['userOne']
+      delete conversationInJSON['userTwo']
+
+      return conversationInJSON
+    })
   }
 
   public async show({ params, response, auth }: HttpContextContract) {
