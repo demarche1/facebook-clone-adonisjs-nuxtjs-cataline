@@ -49,3 +49,23 @@ html {
     outline: none;
   }
 }
+
+.notifications {
+  font-size: 16px;
+  border-radius: 15px;
+  padding: 0.5rem 1rem;
+  width: max-content;
+  color: #fff;
+
+  &.error {
+    background-color: rgb(255, 0, 0);
+  }
+
+  &.success {
+    background-color: rgb(0, 252, 13);
+  }
+
+  &.warn {
+    background-color: rgb(251, 255, 0);
+  }
+}

@@ -1,30 +1,30 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { $axios } from "@/utils/nuxt-instance"
-import { User } from "@/models"
+import { $axios } from '@/utils/nuxt-instance'
+import { User } from '@/models'
 
 interface CreatePayload {
-	redirectUrl: string,
-	email: string
+  redirectUrl: string
+  email: string
 }
 
 interface ShowPayload {
-	key: string
+  key: string
 }
 
 interface updatePayload {
-	key: string,
-	name: string,
-	password: string,
-	passwordConfirmation: string
+  key: string
+  name: string
+  password: string
+  passwordConfirmation: string
 }
 
 @Module({ name: 'users/register', stateFactory: true, namespaced: true })
 export default class UserRegister extends VuexModule {
   private user = {} as User
 
-	get $user () {
-		return this.user
-	}
+  get $user() {
+    return this.user
+  }
 
   @Mutation
   private UPDATE_USER(user: User) {
@@ -38,13 +38,13 @@ export default class UserRegister extends VuexModule {
 
   @Action
   public async show({ key }: ShowPayload) {
-    const user = await $axios.$post(`/users/register/${key}`)
+    const user = await $axios.$get(`/users/register/${key}`)
 
     this.context.commit('UPDATE_USER', user)
   }
 
   @Action
   public async update(payload: updatePayload) {
-		await $axios.$post(`/users/register`, payload)
+    await $axios.$put(`/users/register`, payload)
   }
 }

@@ -1,20 +1,78 @@
 <template>
-  <form>
+  <form @submit.prevent="onSubmit">
     <div class="fom-field">
-      <BaseInput type="email" placeholder="E-mail" />
+      <BaseInput
+        type="email"
+        placeholder="E-mail"
+        :value="user.email"
+        disabled
+      />
     </div>
     <div class="fom-field">
-      <BaseInput type="text" placeholder="Nome" />
+      <BaseInput v-model="user.name" type="text" placeholder="Nome" />
     </div>
     <div class="fom-field">
-      <BaseInput type="password" placeholder="Senha" />
+      <BaseInput v-model="user.password" type="password" placeholder="Senha" />
     </div>
     <div class="fom-field">
-      <BaseInput type="password" placeholder="Repita a senha" />
+      <BaseInput
+        v-model="user.passwordConfirmation"
+        type="password"
+        placeholder="Repita a senha"
+      />
     </div>
     <BaseButton text="Próxima etapa" />
   </form>
 </template>
+
+<script lang="ts">
+import vue from 'vue'
+import { userRegister } from '@/store'
+
+export default vue.extend({
+  data() {
+    return {
+      user: {
+        email: userRegister.$user.email,
+        name: '',
+        password: '',
+        passwordConfirmation: ''
+      }
+    }
+  },
+  methods: {
+    delay() {
+      return new Promise(() => {
+        setTimeout(() => {}, 500)
+      })
+    },
+    async onSubmit() {
+      try {
+        await userRegister.update({
+          key: this.$route.params.key,
+          name: this.user.name,
+          password: this.user.password,
+          passwordConfirmation: this.user.passwordConfirmation
+        })
+
+        this.$notify({
+          type: 'success',
+          text: 'Usuário cadastrado com sucesso!'
+        })
+
+        await this.delay()
+
+        window.location.href = '/'
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Oops, algo deu errado!'
+        })
+      }
+    }
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 form {

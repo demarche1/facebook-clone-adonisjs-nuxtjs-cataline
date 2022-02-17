@@ -14,7 +14,7 @@ export default {
 
   css: ['normalize.css/normalize.css', '@/assets/scss/base.scss'],
 
-  plugins: ['@/plugins/accessor'],
+  plugins: ['@/plugins/accessor', '@/plugins/vueNotification.client'],
 
   components: [{ path: '@/components/', pathPrefix: false }],
 
@@ -37,6 +37,8 @@ export default {
 
   modules: ['@nuxtjs/axios'],
 
-  axios: {},
+  axios: {
+    baseUrl: 'http://127.0.0.1:3333'
+  },
   build: {}
 }
