@@ -41,11 +41,6 @@ export default vue.extend({
     }
   },
   methods: {
-    delay() {
-      return new Promise(() => {
-        setTimeout(() => {}, 500)
-      })
-    },
     async onSubmit() {
       try {
         await userRegister.update({
@@ -60,9 +55,10 @@ export default vue.extend({
           text: 'Usuário cadastrado com sucesso!'
         })
 
-        await this.delay()
-
-        window.location.href = '/'
+        this.user.email = ''
+        this.user.name = ''
+        this.user.password = ''
+        this.user.passwordConfirmation = ''
       } catch (error) {
         this.$notify({
           type: 'error',
