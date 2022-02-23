@@ -7,8 +7,12 @@ interface CreateToken {
   password: string
 }
 
-@Module({ name: 'users/register', stateFactory: true, namespaced: true })
-export default class UserRegister extends VuexModule {
+interface UpdatePayload {
+  token?: string
+}
+
+@Module({ name: 'auth', stateFactory: true, namespaced: true })
+export default class Auth extends VuexModule {
   private token = null as Token
 
   get $token() {
@@ -20,7 +24,7 @@ export default class UserRegister extends VuexModule {
     this.token = token
   }
 
-  @Action
+  @Action({ rawError: true })
   public async create(payload: CreateToken) {
     const { token } = await $axios.$post('/auth', payload)
 
@@ -28,6 +32,13 @@ export default class UserRegister extends VuexModule {
       path: '/',
       maxAge: 60 * 60 * 24 * 30 // 30 days
     })
+
+    this.context.commit('UPDATE_TOKEN', token)
+  }
+
+  @Action
+  public update(payload: UpdatePayload) {
+    const token = payload?.token ? payload.token : $cookie.get('token')
 
     this.context.commit('UPDATE_TOKEN', token)
   }

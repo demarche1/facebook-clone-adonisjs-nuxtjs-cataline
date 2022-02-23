@@ -8,6 +8,7 @@ import { userRegister } from '@/store'
 
 export default Vue.extend({
   layout: 'blank',
+  middleware: 'guest',
   async asyncData({ params, redirect }) {
     try {
       const key = params.key as string
