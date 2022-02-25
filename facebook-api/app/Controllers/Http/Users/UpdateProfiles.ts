@@ -7,7 +7,11 @@ export default class UpdateProfilesController {
 
     await user.load('avatar')
 
-    return user
+    return user.serialize({
+      fields: {
+        omit: ['createdAt', 'updatedAt', 'rememberMeToken']
+      }
+    })
   }
 
   public async update({ request, response, auth }: HttpContextContract) {
