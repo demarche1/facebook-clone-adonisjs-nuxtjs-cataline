@@ -64,7 +64,7 @@ import { mobile } from '@/store'
 export default Vue.extend({
   data() {
     return {
-      notificationsIsOpened: false,
+      notificationsIsOpened: false
     }
   },
   methods: {
@@ -76,13 +76,13 @@ export default Vue.extend({
       html.classList.toggle('overflow-hidden')
 
       mobile.toggle()
-    },
+    }
   },
   computed: {
     $isMenuActive() {
       return mobile.$isMenuActive
-    },
-  },
+    }
+  }
 })
 </script>
 

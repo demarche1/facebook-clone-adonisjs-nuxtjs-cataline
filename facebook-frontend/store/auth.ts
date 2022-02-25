@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { $axios, $cookie } from '@/utils/nuxt-instance'
+import { $axios, $cookies } from '@/utils/nuxt-instance'
 import { Token } from '@/models'
 
 interface CreateToken {
@@ -28,7 +28,7 @@ export default class Auth extends VuexModule {
   public async create(payload: CreateToken) {
     const { token } = await $axios.$post('/auth', payload)
 
-    $cookie.set('token', token, {
+    $cookies.set('token', token, {
       path: '/',
       maxAge: 60 * 60 * 24 * 30 // 30 days
     })
@@ -38,7 +38,7 @@ export default class Auth extends VuexModule {
 
   @Action
   public update(payload: UpdatePayload) {
-    const token = payload?.token ? payload.token : $cookie.get('token')
+    const token = payload?.token ? payload.token : $cookies.get('token')
 
     this.context.commit('UPDATE_TOKEN', token)
   }
@@ -47,7 +47,7 @@ export default class Auth extends VuexModule {
   public async delete() {
     await $axios.$delete(`/auth`)
 
-    $cookie.remove('token')
+    $cookies.remove('token')
 
     this.context.commit('UPDATE_TOKEN', null)
   }

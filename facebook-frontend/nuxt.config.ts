@@ -14,7 +14,11 @@ export default {
 
   css: ['normalize.css/normalize.css', '@/assets/scss/base.scss'],
 
-  plugins: ['@/plugins/accessor', '@/plugins/vueNotification.client'],
+  plugins: [
+    '@/plugins/accessor',
+    '@/plugins/vueNotification.client',
+    '@/plugins/axios'
+  ],
 
   components: [{ path: '@/components/', pathPrefix: false }],
 

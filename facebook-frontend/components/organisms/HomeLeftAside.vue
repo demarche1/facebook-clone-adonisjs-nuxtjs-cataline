@@ -2,9 +2,9 @@
   <Aside :class="{ 'is-menu-active': isMenuActive }">
     <div class="content">
       <div class="profile-avatar">
-        <img src="@/assets/img/profile-pic.jpg" alt="" />
+        <img :src="user.avatar" alt="" />
 
-        <p>Cataline S. Rocha</p>
+        <!-- <p>{{ user.name }}</p> -->
         <BaseButton
           @click.native="toggleMenuActive"
           btnLink
@@ -49,9 +49,9 @@
           :text="'Memórias'"
         />
         <AsideLink
+          :text="'Vídeos'"
           @click.native="toggleMenuActive"
           :imageURL="'videos-link.svg'"
-          :text="'Vídeos'"
         />
       </div>
     </div>
@@ -64,13 +64,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mobile } from '@/store'
+import { mobile, userProfile } from '@/store'
 
 export default Vue.extend({
+  data() {
+    return {
+      user: {
+        avatar: userProfile.$user.avatar?.url,
+        name: userProfile.$user.name
+      }
+    }
+  },
   computed: {
     isMenuActive() {
       return mobile.$isMenuActive
-    },
+    }
   },
   methods: {
     toggleMenuActive() {
@@ -83,8 +91,8 @@ export default Vue.extend({
       body.classList.toggle('overflow-hidden')
       html.classList.toggle('overflow-hidden')
       mobile.toggle()
-    },
-  },
+    }
+  }
 })
 </script>
 
@@ -157,3 +165,9 @@ export default Vue.extend({
   }
 }
 </style>
+
+function computed(arg0: { data(): { user: any } }, computed: any, arg2: {
+isMenuActive(): boolean }, watch: any, arg4: { name(_old: any, newv: any): void;
+avatar(_old: any, newv: any): void }, async: any, arg6: any, arg7: { this: void
+}, methods: any, arg9: { toggleMenuActive(): void }) { throw new Error('Function
+not implemented.') }

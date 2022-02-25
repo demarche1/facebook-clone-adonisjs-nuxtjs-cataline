@@ -4,7 +4,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { userProfile } from '@/store'
 export default Vue.extend({
-  middleware: 'auth'
+  middleware: 'auth',
+  async asyncData() {
+    await userProfile.show()
+  }
 })
 </script>

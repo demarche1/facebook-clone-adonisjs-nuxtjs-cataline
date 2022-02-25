@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 <template>
   <div class="user-card">
     <img src="@/assets/img/profile-pic.jpg" alt="" />
@@ -18,16 +19,17 @@ export default Vue.extend({
   props: {
     userName: {
       type: String,
-      required: true,
+      required: true
     },
     description: {
       type: String,
-      required: true,
+      required: true
     },
+    // eslint-disable-next-line vue/require-default-prop
     btnText: {
-      type: String,
-    },
-  },
+      type: String
+    }
+  }
 })
 </script>
 

@@ -2,5 +2,11 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none",
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "auto"
+    }
+  ]
 }

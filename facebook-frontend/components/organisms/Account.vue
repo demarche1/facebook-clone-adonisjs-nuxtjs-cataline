@@ -14,13 +14,33 @@
     <div class="disable-account">
       <button>Desativar minha conta temporariamente</button>
     </div>
+
+    <div class="logout">
+      <button @click="logout">Sair</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { auth } from '@/store'
 
-export default Vue.extend({})
+export default Vue.extend({
+  methods: {
+    async logout() {
+      try {
+        await auth.delete()
+
+        this.$router.push('/')
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Oops algo deu errado'
+        })
+      }
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -74,6 +94,19 @@ export default Vue.extend({})
       grid-template-columns: 1fr;
       grid-template-areas: 'Button';
     }
+    button {
+      outline: none;
+      background: none;
+      grid-area: Button;
+      text-align: left;
+      color: color(red);
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+  .logout {
     button {
       outline: none;
       background: none;
