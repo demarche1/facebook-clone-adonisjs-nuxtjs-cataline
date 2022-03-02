@@ -15,6 +15,11 @@ export default class UserProfile extends VuexModule {
     this.user = user
   }
 
+  @Mutation
+  private UPDATE_AVATAR(avatar: User['avatar']) {
+    this.user.avatar = avatar
+  }
+
   @Action
   public async show() {
     if ($cookies.get('token')) {

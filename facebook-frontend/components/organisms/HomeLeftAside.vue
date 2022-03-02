@@ -2,9 +2,9 @@
   <Aside :class="{ 'is-menu-active': isMenuActive }">
     <div class="content">
       <div class="profile-avatar">
-        <img :src="user.avatar" alt="" />
+        <img :src="avatar" alt="" />
 
-        <!-- <p>{{ user.name }}</p> -->
+        <p>{{ user.name }}</p>
         <BaseButton
           @click.native="toggleMenuActive"
           btnLink
@@ -67,17 +67,17 @@ import Vue from 'vue'
 import { mobile, userProfile } from '@/store'
 
 export default Vue.extend({
-  data() {
-    return {
-      user: {
-        avatar: userProfile.$user.avatar?.url,
-        name: userProfile.$user.name
-      }
-    }
-  },
   computed: {
     isMenuActive() {
       return mobile.$isMenuActive
+    },
+    user() {
+      return userProfile.$user
+    },
+    avatar() {
+      return userProfile.$user.avatar
+        ? userProfile.$user.avatar.url
+        : '/profile-pic.jpg'
     }
   },
   methods: {

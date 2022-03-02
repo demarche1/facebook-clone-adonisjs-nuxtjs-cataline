@@ -2,17 +2,17 @@
   <form>
     <div class="form-field">
       <label>Nome</label>
-      <BaseInput />
+      <BaseInput v-model="user.name" />
     </div>
     <div class="form-field">
       <label>Nome do usuário</label>
-      <BaseInput />
+      <BaseInput v-model="user.username" />
     </div>
     <br />
     <br />
     <div class="form-field">
       <label>E-mail</label>
-      <BaseInput readonly />
+      <BaseInput readonly v-model="user.email" />
     </div>
     <div class="form-field">
       <label>Nova senha</label>
@@ -30,8 +30,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { userProfile } from '@/store'
 
-export default Vue.extend({})
+export default Vue.extend({
+  data() {
+    return {
+      user: { ...userProfile.$user }
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

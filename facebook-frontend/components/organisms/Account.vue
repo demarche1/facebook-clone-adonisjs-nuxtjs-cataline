@@ -2,12 +2,12 @@
   <div class="account-container">
     <div class="account-avatar">
       <div class="image">
-        <img src="/profile-pic.jpg" />
+        <img :src="avatar" />
       </div>
       <div class="info">
-        <p>Caterine Silva</p>
+        <p>{{ user.name }}</p>
         <label for="avatar">Alterar foto do perfil</label>
-        <input id="avatar" type="file" />
+        <input id="avatar" type="file" @input="updateAvatar" />
       </div>
     </div>
     <AccountForm />
@@ -23,10 +23,23 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { auth } from '@/store'
+import { auth, userProfile, avatar } from '@/store'
 
 export default Vue.extend({
+  computed: {
+    user() {
+      return userProfile.$user
+    },
+    avatar() {
+      return userProfile.$user.avatar
+        ? userProfile.$user.avatar.url
+        : '/profile-pic.jpg'
+    }
+  },
   methods: {
+    async updateAvatar(event: any) {
+      await avatar.update({ file: event.target.files[0] })
+    },
     async logout() {
       try {
         await auth.delete()

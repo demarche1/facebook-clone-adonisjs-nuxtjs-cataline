@@ -39,13 +39,13 @@ export default Vue.extend({
   data(): any {
     return {
       text: '',
-      isWritingANewPost: false,
+      isWritingANewPost: false
     }
   },
   computed: {
     hasText(): boolean {
       return this.text.trim().length > 0
-    },
+    }
   },
   methods: {
     sendPost() {
@@ -54,7 +54,7 @@ export default Vue.extend({
     cancelPost() {
       this.text = ''
       this.isWritingANewPost = false
-    },
+    }
   },
   mounted() {
     window.addEventListener('click', (e) => {
@@ -64,7 +64,7 @@ export default Vue.extend({
         this.isWritingANewPost = false
       }
     })
-  },
+  }
 })
 </script>
 

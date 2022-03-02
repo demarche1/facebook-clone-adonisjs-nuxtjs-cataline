@@ -20,8 +20,8 @@
 
     <div class="menu-bar-actions">
       <NuxtLink to="/123" class="profile-avatar">
-        <img src="@/assets/img/profile-pic.jpg" alt="Foto do perfil" />
-        <p>Caterine</p>
+        <img :src="avatar" alt="Foto do perfil" />
+        <p>{{ user.name }}</p>
       </NuxtLink>
 
       <ul class="actions">
@@ -33,9 +33,9 @@
 
         <li class="notification-button">
           <button
-            @click="notificationsIsOpened = !notificationsIsOpened"
-            href="#"
             :class="{ 'active-notifications': notificationsIsOpened }"
+            href="#"
+            @click="notificationsIsOpened = !notificationsIsOpened"
           >
             <fa :icon="['fas', 'bell']" class="bell" />
           </button>
@@ -51,7 +51,7 @@
       </ul>
     </div>
 
-    <button @click="toggleMenuActive" class="btn-open">
+    <button class="btn-open" @click="toggleMenuActive">
       <fa :icon="['fas', 'bars']" class="hamburger" />
     </button>
   </header>
@@ -59,12 +59,25 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mobile } from '@/store'
+import { mobile, userProfile } from '@/store'
 
 export default Vue.extend({
   data() {
     return {
       notificationsIsOpened: false
+    }
+  },
+  computed: {
+    $isMenuActive() {
+      return mobile.$isMenuActive
+    },
+    user() {
+      return userProfile.$user
+    },
+    avatar() {
+      return userProfile.$user.avatar
+        ? userProfile.$user.avatar.url
+        : '/profile-pic.jpg'
     }
   },
   methods: {
@@ -76,11 +89,6 @@ export default Vue.extend({
       html.classList.toggle('overflow-hidden')
 
       mobile.toggle()
-    }
-  },
-  computed: {
-    $isMenuActive() {
-      return mobile.$isMenuActive
     }
   }
 })
